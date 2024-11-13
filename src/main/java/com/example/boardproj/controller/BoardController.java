@@ -133,14 +133,8 @@ public class BoardController {
 
         model.addAttribute("pageResponseDTO", pageResponseDTO);
 
-
-
-
-
         return "board/list";
-
     }
-
     @GetMapping("/update")
     public String update(Long bno, Model model, PageRequestDTO pageRequestDTO){
 
@@ -149,27 +143,21 @@ public class BoardController {
 
             return "redirect:/board/list?"+pageRequestDTO.getLink();
         }
-
-
         try {
             BoardDTO boardDTO = boardService.read(bno);
 
             List<BoardImgDTO> boardImgDTOList =
                     boardImgService.boardImgread(bno);
 
-
             model.addAttribute("boardDTO", boardDTO);
 
             model.addAttribute("boardImgDTOList", boardImgDTOList);
-
 
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             log.info("pk로 검색한 값이 없음");
             return "redirect:/board/list?"+pageRequestDTO.getLink();
         }
-
-
 
         return "board/update";
     }
@@ -179,11 +167,8 @@ public class BoardController {
     public String updatePost(@Valid BoardDTO boardDTO, BindingResult bindingResult, MultipartFile multipartFile,
                              Long[] delino, PageRequestDTO pageRequestDTO, Model model){
 
-
-
         log.info("업데이트포스 " + boardDTO);
         log.info("업데이트포스 " + pageRequestDTO);
-
 
         if(bindingResult.hasErrors()){
 
@@ -195,10 +180,6 @@ public class BoardController {
 
         }
 
-
-
-
-
         try {
             boardService.update(boardDTO);
             if(multipartFile != null && !multipartFile.getOriginalFilename().equals("")){
@@ -207,7 +188,6 @@ public class BoardController {
 
                 boardImgService.boardImgregister(boardDTO.getBno(), multipartFile);
             }
-
 
             if(delino !=null && !delino[0].equals("") ){
                 log.info("업데이트포스 " + Arrays.toString(delino));
@@ -219,15 +199,11 @@ public class BoardController {
             }
 
         }catch (EntityNotFoundException e){
-
             //model.addAttribute("msg", "현재 수정하려는 글번호가 옳바르지 않습니다.");
-
             //return  "board/update";
             return "redirect:/board/list?"+pageRequestDTO.getLink();
 
         }
-
-
         return "redirect:/board/list?"+pageRequestDTO.getLink();
     }
 

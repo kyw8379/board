@@ -57,7 +57,9 @@
 
         <div class="row">
             <div class="col text-end">
-                <button type="button" class="btn btn-dark">글 등록</button>
+                <button type="button" class="btn btn-dark " onclick="location.href='/board/register'">글 등록</button>
+                <button type="button" class="btn btn-dark " onclick="window.open('/board/register')">글 등록 새탭으로 열기</button>
+                <button type="button" class="btn btn-dark " onclick="window.open('/board/register','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');">글 등록 새창으로작게</button>
             </div>
         </div>
 
@@ -78,7 +80,7 @@
                         <tr>
                             <td th:text="${boardDTO.bno}"></td>
                             <td>
-                                <a href="#">
+                                <a href="#" class="readMove" th:data-bno="${boardDTO.bno}">
                                     [[${boardDTO.title}]]
                                 </a>
                             </td>
@@ -110,6 +112,16 @@
         </div>
 
     </div>
+<script th:inline="javascript">
+    let readMove = $(".readMove")
+    let pageRequestDTO = [[${pageRequestDTO}]]
+    readMove.on("click", function () {
+        console.log(pageRequestDTO)
+        location.href = "/board/read?bno=" + $(this).data("bno") + "&" +pageRequestDTO.link
+    })
+    
+    
+</script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
